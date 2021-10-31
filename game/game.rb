@@ -65,7 +65,7 @@ class Game
     return answer.to_i
   end
 
-  def hit(player)
+  def hit?(player)
     puts "You have #{player.points} points in your cards."
     answer = ""
     yes = "Y"
@@ -75,9 +75,31 @@ class Game
       answer = gets.chomp
       answer.upcase!
     end
-
-
+    if answer == yes
+      return true
+    else
+      return false
+    end
   end
 
+  def play_again?(player)
+    if player.chips <= 0
+      return false
+    end
+    answer = ""
+    yes = "Y"
+    no = "N"
+    while !answer.match?(yes) || !answer.match?(no)
+      puts "You have #{player.chips} chips."
+      puts "Do you want to play again?"
+      answer = gets.chomp
+      answer.upcase!
+    end
+    if answer.match?(yes)
+      return true
+    else
+      return false
+    end
+  end
 
 end
