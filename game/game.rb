@@ -2,6 +2,7 @@ class Game
 
   def initialize(deck = DeckBuilder.new)
     @deck = deck
+    @player = nil
   end
 
   def new_table
@@ -15,8 +16,8 @@ class Game
     else
       chips = 1500
     end
-    player = Player.new (name, chips)
-    puts "OK #{player.name} you got #{player.chips}"
+    @player = Player.new (name, chips)
+    puts "OK #{@player.name} you got #{@player.chips}"
   end
 
   def draw_a_card(deck, player)
