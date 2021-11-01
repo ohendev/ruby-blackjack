@@ -9,7 +9,7 @@ player = game.player
 play_again = true
 while play_again
   #bet round portion
-  game.bet_amount(player)
+  round_bet = game.bet_amount(player)
   #draw cards portions
   player_points = game.draw_a_card(deck, player)
   player_points += game.draw_a_card(deck, player)
@@ -19,7 +19,7 @@ while play_again
   #player hit or not portion
   another_card = true
   while player.points < 21 && another_card
-    another_card = game.hit?(player)
+    another_card = game.hit?(player, dealer)
     if another_card
       player_points += game.draw_a_card(deck, player)
     end
@@ -47,4 +47,7 @@ while play_again
   puts "========== who has won ? ==========="
   player.chips += game.win_check(player, dealer, round_bet)
   play_again = game.play_again?(player)
+  player.reset_cards
+  player.reset_points
 end
+puts "Thank you! bye!"

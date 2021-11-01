@@ -28,11 +28,19 @@ class Player
     return @cards
   end
 
+  def reset_cards
+    @cards = []
+  end
+
   def points
     return @points
   end
 
   def points=(amount)
     @points += amount
+  end
+
+  def reset_points
+    @points = 0
   end
 end

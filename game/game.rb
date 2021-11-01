@@ -32,7 +32,7 @@ class Game
 
   def win_check(player, dealer, bet)
     gain_or_loss = 0
-    if player.points == 21
+    if player.points == 21 && dealer.points != 21
       puts "#{player.name}, you got 21! It's a Blackjack! You win!"
       gain_or_loss = 2 * bet
     elsif player.points > 21
@@ -62,7 +62,7 @@ class Game
         puts "You have entered letters instead of numbers!"
       elsif answer.to_i < 10
         puts "You must bet at least 10 chips!"
-      else
+      elsif answer.to_i > player.chips
         puts "You are trying to bet more chips than you have!"
         puts "You have: #{player.chips} chips!"
       end
@@ -70,14 +70,16 @@ class Game
     amount = answer.to_i
     player.chips -= amount
     puts "Ok you have bet #{amount}"
+    return amount
   end
 
-  def hit?(player)
+  def hit?(player, dealer)
     puts "You have #{player.points} points in your cards."
+    puts "Dealer has #{dealer.points} points."
     answer = ""
     yes = "Y"
     no = "N"
-    while answer.match?("\d+") && ( !answer.start_with?(yes) || !answer.start_with?(no) )
+    until answer.start_with?(yes) || answer.start_with?(no)
       puts "Do you want to hit? (Y/N)"
       answer = gets.chomp
       answer.upcase!
@@ -96,7 +98,7 @@ class Game
     answer = ""
     yes = "Y"
     no = "N"
-    while !answer.match?(yes) || !answer.match?(no)
+    until answer.match?(yes) || answer.match?(no)
       puts "You have #{player.chips} chips."
       puts "Do you want to play again? Y/N"
       answer = gets.chomp
