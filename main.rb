@@ -1,14 +1,15 @@
-deck = DeckBuilder.new
-deck.build!
-deck.shuffle_deck!
-game = Game.new (deck)
+require './deck/DeckBuilder'
+require './game/Game'
+require './models/Player'
+game = Game.new
+deck = game.deck
 game.new_table
-dealer = Player.new ("Dealer", 1000000)
+dealer = Player.new("Dealer", 1000000)
 player = game.player
 play_again = true
 while play_again
   #bet round portion
-  round_bet = game.bet_amount(player)
+  game.bet_amount(player)
   #draw cards portions
   player_points = game.draw_a_card(deck, player)
   player_points += game.draw_a_card(deck, player)
@@ -25,7 +26,7 @@ while play_again
     player_cards = player.cards
     if player.points > 21
       for card in player_cards
-        if card.is_an_ace?
+        if card.ace
           player_points -= 10
         end
       end
@@ -36,7 +37,7 @@ while play_again
     dealer_cards = dealer.cards
     if dealer.points > 21
       for card in dealer_cards
-        if card.is_an_ace?
+        if card.ace
           dealer_cards -= 10
         end
       end

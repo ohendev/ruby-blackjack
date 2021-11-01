@@ -12,17 +12,21 @@ class Game
     puts "Cool! #{name}, how many chips do you want?"
     chips = gets.chomp
     if chips.match?('\d+')
-      chips.to_i!
+      chips = chips.to_i
     else
       chips = 1500
     end
-    @player = Player.new (name, chips)
+    @player = Player.new(name, chips)
     puts "OK #{@player.name} you got #{@player.chips}"
+    puts "Dealer shuffles deck!"
+    @deck = @deck.build
+    @deck.shuffle!
   end
 
   def draw_a_card(deck, player)
-    card = deck.pop
-    card.print_name
+    puts "Dealer draw a card for #{player.name}"
+    card = deck.draw
+    card.print_name(player)
     player.add_card(card)
   end
 
@@ -50,11 +54,11 @@ class Game
   end
 
   def bet_amount(player)
-    answer = ""
-    while answer.to_i < 10 && answer.match?('\w') && answer.to_i > player.chips
+    answer = "9"
+    until answer.match?('\d+') && answer.to_i > 10 && answer.to_i < player.chips
       puts "How much do you want to bet?"
       answer = gets.chomp
-      if answer.match?('\w')
+      if !answer.match?('\d+')
         puts "You have entered letters instead of numbers!"
       elsif answer.to_i < 10
         puts "You must bet at least 10 chips!"
@@ -63,7 +67,9 @@ class Game
         puts "You have: #{player.chips} chips!"
       end
     end
-    return answer.to_i
+    amount = answer.to_i
+    player.chips -= amount
+    puts "Ok you have bet #{amount}"
   end
 
   def hit?(player)
@@ -92,15 +98,22 @@ class Game
     no = "N"
     while !answer.match?(yes) || !answer.match?(no)
       puts "You have #{player.chips} chips."
-      puts "Do you want to play again?"
+      puts "Do you want to play again? Y/N"
       answer = gets.chomp
       answer.upcase!
     end
-    if answer.match?(yes)
-      return true
-    else
+    if answer.match?(no)
       return false
+    else
+      return true
     end
   end
 
+  def player
+    return @player
+  end
+
+  def deck
+    return @deck
+  end
 end

@@ -25,7 +25,23 @@ class Card
   end
 
   def print_name(player)
-    puts "#{player} has drawn: " + self.name + " of " + self.suit
+    puts "#{player.name} has drawn: " + self.name + " of " + self.suit
+  end
+
+  def name
+    return @name
+  end
+
+  def suit
+    return @suit
+  end
+
+  def value
+    return @value
+  end
+
+  def ace
+    return @ace
   end
 
 end
